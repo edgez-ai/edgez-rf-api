@@ -22,6 +22,13 @@ struct edgez_rf_callback_metrics
     uint32_t scan_completions;
 };
 
+struct edgez_rf_regulatory_channel
+{
+    uint16_t duty_cycle_centi_percent;
+    bool duty_cycle_omit_control_response;
+    int8_t max_eirp_dbm;
+};
+
 /** Initialize platform services required by the selected RF backend. */
 int edgez_rf_platform_init(void);
 
@@ -49,6 +56,11 @@ bool edgez_rf_host_scan_complete(int driver_scan_status);
 bool edgez_rf_resolve_s1g_channel(const char country_code[3], uint8_t channel,
                                   uint32_t *frequency_khz,
                                   uint8_t *bandwidth_mhz);
+
+/** Resolve regulatory limits for an exact center frequency and bandwidth. */
+bool edgez_rf_resolve_regulatory_channel(
+    const char country_code[3], uint32_t frequency_hz, uint8_t bandwidth_mhz,
+    struct edgez_rf_regulatory_channel *regulatory);
 
 #ifdef __cplusplus
 }
